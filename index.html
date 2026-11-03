@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="theme-color" content="#0b1a3b">
+  <title>Caminando con Dios</title>
+  <link rel="icon" href="data:,">
+
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{font-size:16px;-webkit-text-size-adjust:100%}
+    body{
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      background:#0b1a3b;color:#f0ece2;
+      min-height:100vh;min-height:100dvh;
+      overflow-x:hidden;-webkit-font-smoothing:antialiased;
+    }
+    .header{
+      position:relative;text-align:center;
+      padding:3rem 1.5rem 2.5rem;
+      background:linear-gradient(175deg,#0b1a3b 0%,#162d6e 50%,#1a3a8a 100%);
+      overflow:hidden;
+    }
+    .header::after{
+      content:"";position:absolute;bottom:-2px;left:0;right:0;height:40px;
+      background:#0b1a3b;clip-path:ellipse(55% 100% at 50% 100%);
+    }
+    .header .icon{font-size:2.8rem;margin-bottom:.6rem;display:block;animation:float 3s ease-in-out infinite}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+    .header h1{font-size:1.85rem;font-weight:800;letter-spacing:.5px;line-height:1.2;color:#ffd369;text-shadow:0 2px 12px rgba(255,211,105,.25)}
+    .header p{margin-top:.65rem;font-size:.95rem;color:rgba(240,236,226,.75);line-height:1.45;font-style:italic}
+    
+    .challenge{
+      margin:1.5rem 1.15rem;padding:1.6rem 1.3rem;
+      background:linear-gradient(135deg,#1c2e5e,#243b7a);
+      border-radius:16px;border:1px solid rgba(255,211,105,.15);
+      box-shadow:0 8px 30px rgba(0,0,0,.35);position:relative;overflow:hidden;
+    }
+    .challenge::before{content:"✦";position:absolute;top:-10px;right:12px;font-size:4rem;color:rgba(255,211,105,.06)}
+    .challenge .label{
+      display:inline-block;font-size:.65rem;font-weight:700;text-transform:uppercase;
+      letter-spacing:2px;color:#ffd369;background:rgba(255,211,105,.1);
+      padding:.3rem .7rem;border-radius:20px;margin-bottom:.85rem;
+    }
+    .challenge h2{font-size:1.15rem;font-weight:700;line-height:1.4;margin-bottom:.6rem;color:#fff}
+    .challenge p{font-size:.9rem;line-height:1.55;color:rgba(240,236,226,.7)}
+    .challenge .verse{
+      margin-top:1rem;padding-top:.85rem;border-top:1px solid rgba(255,255,255,.08);
+      font-size:.8rem;color:#ffd369;font-style:italic;
+    }
+
+    .carousel-section{padding:1rem 0 1.5rem}
+    .carousel-section .section-title{
+      text-align:center;font-size:.7rem;text-transform:uppercase;
+      letter-spacing:2.5px;color:rgba(240,236,226,.45);margin-bottom:1rem;
+    }
+    .carousel{position:relative;width:100%;overflow:hidden;touch-action:pan-y}
+    .carousel-track{display:flex;transition:transform .4s cubic-bezier(.25,.8,.25,1);will-change:transform}
+    
+    /* AQUI ESTAN LOS ESTILOS QUE ARREGLAN LAS FOTOS */
+    .carousel-slide{min-width:100%;position:relative;aspect-ratio:16/10;overflow:hidden}
+    .carousel-slide img{width:100%;height:100%;object-fit:cover;display:block}
+    
+    .slide-placeholder{
+      width:100%;height:100%;display:flex;align-items:center;
+      justify-content:center;flex-direction:column;gap:.4rem;
+      font-size:.85rem;color:rgba(255,255,255,.7);font-weight:600;
+    }
+    .slide-placeholder .ph-icon{font-size:2.2rem;opacity:.6}
+    .slide-3{background:linear-gradient(135deg,#b5651d,#f0a050)}
+    .slide-4{background:linear-gradient(135deg,#1a5276,#5dade2)}
+    .slide-5{background:linear-gradient(135deg,#922b21,#e74c3c)}
+    
+    .slide-caption{
+      position:absolute;bottom:0;left:0;right:0;padding:.7rem 1rem;
+      background:linear-gradient(transparent,rgba(0,0,0,.7));
+      font-size:.78rem;color:#fff;font-weight:500;
+    }
+    .carousel-dots{display:flex;justify-content:center;gap:8px;margin-top:.9rem}
+    .carousel-dots .dot{
+      width:8px;height:8px;border-radius:50%;background:rgba(240,236,226,.25);
+      border:none;padding:0;cursor:pointer;transition:all .3s;
+    }
+    .carousel-dots .dot.active{background:#ffd369;transform:scale(1.3)}
+    .carousel-arrow{
+      position:absolute;top:50%;transform:translateY(-50%);
+      width:36px;height:36px;border-radius:50%;border:none;
+      background:rgba(0,0,0,.45);color:#fff;font-size:1.1rem;
+      cursor:pointer;z-index:2;display:flex;align-items:center;
+      justify-content:center;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+    }
+    .carousel-arrow.prev{left:10px}
+    .carousel-arrow.next{right:10px}
+
+    .cta-area{padding:1.5rem 1.15rem 2.5rem;text-align:center}
+    .btn-whatsapp{
+      display:inline-flex;align-items:center;gap:.55rem;
+      padding:.95rem 2rem;font-size:1rem;font-weight:700;color:#fff;
+      background:#25d366;border:none;border-radius:50px;cursor:pointer;
+      box-shadow:0 6px 20px rgba(37,211,102,.35);text-decoration:none;
+      transition:transform .2s,box-shadow .2s;-webkit-tap-highlight-color:transparent;
+    }
+    .btn-whatsapp:active{transform:scale(.96);box-shadow:0 3px 10px rgba(37,211,102,.25)}
+    .btn-whatsapp svg{width:22px;height:22px;fill:#fff}
+    .cta-sub{margin-top:.7rem;font-size:.72rem;color:rgba(240,236,226,.35)}
+    .footer{text-align:center;padding:1rem;font-size:.65rem;color:rgba(240,236,226,.2)}
+    .fade-up{opacity:0;transform:translateY(18px);animation:fadeUp .6s ease forwards}
+    .fade-up:nth-child(2){animation-delay:.15s}
+    .fade-up:nth-child(3){animation-delay:.3s}
+    .fade-up:nth-child(4){animation-delay:.45s}
+    @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+  </style>
+</head>
+<body>
+
+  <header class="header fade-up">
+    <span class="icon">🕊️</span>
+    <h1>Caminando con Dios</h1>
+    <p>«No se trata de la velocidad, sino de la dirección en la que caminas.»</p>
+  </header>
+
+  <section class="challenge fade-up">
+    <span class="label">⚡ Desafío del día</span>
+    <h2>¿Qué haces cuando la tormenta no se detiene?</h2>
+    <p>
+      La adversidad no llega para destruirte, llega para revelarte.
+      Cada prueba que enfrentas hoy es el entrenamiento para la
+      victoria que mañana contarás con lágrimas de gratitud.
+      <strong>No sueltes la fe cuando más oscuro esté el camino.</strong>
+    </p>
+    <div class="verse">
+      «Cuando pases por las aguas, yo estaré contigo.» — Isaías 43:2
+    </div>
+  </section>
+
+  <section class="carousel-section fade-up">
+    <div class="section-title">Nuestra comunidad en acción</div>
+    <div class="carousel" id="carousel">
+      <div class="carousel-track" id="track">
+        
+        <!-- FOTO 1 -->
+        <div class="carousel-slide">
+          <img src="foto1.png" alt="Reunión de oración">
+          <div class="slide-caption">🙏 Noche de oración — Viernes</div>
+        </div>
+        
+        <!-- FOTO 2 -->
+        <div class="carousel-slide">
+          <img src="foto2.png" alt="Estudio bíblico">
+          <div class="slide-caption">📖 Estudio bíblico semanal</div>
+        </div>
+        
+        <!-- SLIDE DE COLORES (SIN FOTO) -->
+        <div class="carousel-slide">
+          <div class="slide-placeholder slide-3"><span class="ph-icon">📸</span>Convivencia</div>
+          <div class="slide-caption">🤝 Convivencia familiar</div>
+        </div>
+        
+      </div>
+      <button class="carousel-arrow prev" id="prevBtn" aria-label="Anterior">‹</button>
+      <button class="carousel-arrow next" id="nextBtn" aria-label="Siguiente">›</button>
+    </div>
+    <div class="carousel-dots" id="dots"></div>
+  </section>
+
+  <div class="cta-area fade-up">
+    <a href="#" class="btn-whatsapp" id="btnClose">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.553 4.12 1.52 5.855L.058 23.487a.5.5 0 00.611.611l5.632-1.462A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.94 0-3.79-.562-5.373-1.572l-.386-.23-3.342.868.884-3.26-.253-.4A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+      Volver al grupo de WhatsApp
+    </a>
+    <p class="cta-sub">Toca para regresar a tu chat</p>
+  </div>
+
+  <footer class="footer">Caminando con Dios © 2025</footer>
+
+  <script>
+    (function(){
+      const track=document.getElementById('track'),slides=track.children,total=slides.length,
+            dotsBox=document.getElementById('dots');
+      let current=0,startX=0,deltaX=0,isDragging=false;
+      for(let i=0;i<total;i++){
+        const d=document.createElement('button');
+        d.className='dot'+(i===0?' active':'');
+        d.setAttribute('aria-label','Slide '+(i+1));
+        d.addEventListener('click',()=>goTo(i));
+        dotsBox.appendChild(d);
+      }
+      const dots=dotsBox.querySelectorAll('.dot');
+      function goTo(i){
+        if(i<0)i=total-1;if(i>=total)i=0;current=i;
+        track.style.transform='translateX(-'+(current*100)+'%)';
+        dots.forEach((d,j)=>d.classList.toggle('active',j===current));
+      }
+      document.getElementById('prevBtn').addEventListener('click',()=>goTo(current-1));
+      document.getElementById('nextBtn').addEventListener('click',()=>goTo(current+1));
+      track.addEventListener('touchstart',e=>{startX=e.touches[0].clientX;isDragging=true;track.style.transition='none'},{passive:true});
+      track.addEventListener('touchmove',e=>{if(!isDragging)return;deltaX=e.touches[0].clientX-startX;track.style.transform='translateX('+(-(current*100)+(deltaX/track.offsetWidth*100))+'%)'},{passive:true});
+      track.addEventListener('touchend',()=>{isDragging=false;track.style.transition='transform .4s cubic-bezier(.25,.8,.25,1)';Math.abs(deltaX)>50?(deltaX<0?goTo(current+1):goTo(current-1)):goTo(current);deltaX=0});
+      let auto=setInterval(()=>goTo(current+1),5000);
+      track.addEventListener('touchstart',()=>clearInterval(auto),{passive:true});
+      document.getElementById('btnClose').addEventListener('click',function(e){
+        e.preventDefault();window.close();
+        setTimeout(()=>{window.location.href='https://chat.whatsapp.com/'},300);
+      });
+    })();
+  </script>
+</body>
+</html>
