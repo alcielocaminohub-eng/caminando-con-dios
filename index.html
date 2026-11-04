@@ -137,8 +137,8 @@
 
   <section class="challenge fade-up">
     <span class="label">⚡ Desafío del día</span>
-    <h2>¿Qué haces cuando la tormenta no se detiene?</h2>
-    <p>
+    <h2 id="titulo-desafio">¿Qué haces cuando la tormenta no se detiene?</h2>
+    <p id="texto-desafio">
       La adversidad no llega para destruirte, llega para revelarte.
       Cada prueba que enfrentas hoy es el entrenamiento para la
       victoria que mañana contarás con lágrimas de gratitud.
@@ -155,7 +155,7 @@
             <div class="carousel-track" id="track">
         <!-- FOTO 1 -->
         <div class="carousel-slide">
-          <img src="foto1.png" alt="Un tiempo de comparti">
+          <img src="foto1.png" alt="Un tiempo de compartir">
           <div class="slide-caption">🙏 Noche de oración — Viernes</div>
         </div>
         <!-- FOTO 2 -->
@@ -198,7 +198,8 @@
   <footer class="footer">Caminando con Dios © 2025</footer>
 
   <script>
-           // LISTA DE DESAFÍOS (Domingo a Sábado)
+    (function(){
+      // --- 1. LÓGICA DE LOS 7 DÍAS ---
       const desafios = [
         { titulo: "El descanso en Dios", texto: "Descansar no es rendirse, es confiar en que Dios tiene el control. Hoy es un buen día para soltar esa carga." },
         { titulo: "¿Qué haces cuando la tormenta no se detiene?", texto: "La adversidad no llega para destruirte, llega para revelarte. No sueltes la fe cuando más oscuro esté el camino." },
@@ -208,36 +209,48 @@
         { titulo: "Paz en medio del caos", texto: "La paz no es la ausencia de problemas, es la presencia de Dios en medio de ellos." },
         { titulo: "Gratitud ante todo", texto: "Incluso en los días difíciles, siempre hay un motivo para agradecer. Busca la bendición escondida." }
       ];
-
-      // Lógica para elegir el desafío según el día (0 es domingo, 1 es lunes...)
+      
       const hoy = new Date().getDay();
-      document.getElementById('titulo-desafio').innerText = desafios[hoy].titulo;
-      document.getElementById('texto-desafio').innerText = desafios[hoy].texto;
+      const tituloEl = document.getElementById('titulo-desafio');
+      const textoEl = document.getElementById('texto-desafio');
+      if(tituloEl && textoEl) {
+        tituloEl.innerText = desafios[hoy].titulo;
+        textoEl.innerText = desafios[hoy].texto;
+      }
 
-    (function(){
-      const track=document.getElementById('track'),slides=track.children,total=slides.length,
+      // --- 2. LÓGICA DEL CARRUSEL ---
+      const track=document.getElementById('track'), slides=track.children, total=slides.length,
             dotsBox=document.getElementById('dots');
-      let current=0,startX=0,deltaX=0,isDragging=false;
-      for(let i=0;i<total;i++){
+      let current=0, startX=0, deltaX=0, isDragging=false;
+      
+      for(let i=0; i<total; i++){
         const d=document.createElement('button');
         d.className='dot'+(i===0?' active':'');
         d.setAttribute('aria-label','Slide '+(i+1));
         d.addEventListener('click',()=>goTo(i));
         dotsBox.appendChild(d);
       }
+      
       const dots=dotsBox.querySelectorAll('.dot');
+      
       function goTo(i){
-        if(i<0)i=total-1;if(i>=total)i=0;current=i;
+        if(i<0) i=total-1; 
+        if(i>=total) i=0; 
+        current=i;
         track.style.transform='translateX(-'+(current*100)+'%)';
         dots.forEach((d,j)=>d.classList.toggle('active',j===current));
       }
+      
       document.getElementById('prevBtn').addEventListener('click',()=>goTo(current-1));
       document.getElementById('nextBtn').addEventListener('click',()=>goTo(current+1));
+      
       track.addEventListener('touchstart',e=>{startX=e.touches[0].clientX;isDragging=true;track.style.transition='none'},{passive:true});
       track.addEventListener('touchmove',e=>{if(!isDragging)return;deltaX=e.touches[0].clientX-startX;track.style.transform='translateX('+(-(current*100)+(deltaX/track.offsetWidth*100))+'%)'},{passive:true});
       track.addEventListener('touchend',()=>{isDragging=false;track.style.transition='transform .4s cubic-bezier(.25,.8,.25,1)';Math.abs(deltaX)>50?(deltaX<0?goTo(current+1):goTo(current-1)):goTo(current);deltaX=0});
+      
       let auto=setInterval(()=>goTo(current+1),5000);
       track.addEventListener('touchstart',()=>clearInterval(auto),{passive:true});
+      
       document.getElementById('btnClose').addEventListener('click',function(e){
         e.preventDefault();window.close();
         setTimeout(()=>{window.location.href='https://chat.whatsapp.com/'},300);
