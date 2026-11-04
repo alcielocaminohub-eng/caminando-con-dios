@@ -190,6 +190,22 @@
   <footer class="footer">Caminando con Dios © 2025</footer>
 
   <script>
+           // LISTA DE DESAFÍOS (Domingo a Sábado)
+      const desafios = [
+        { titulo: "El descanso en Dios", texto: "Descansar no es rendirse, es confiar en que Dios tiene el control. Hoy es un buen día para soltar esa carga." },
+        { titulo: "¿Qué haces cuando la tormenta no se detiene?", texto: "La adversidad no llega para destruirte, llega para revelarte. No sueltes la fe cuando más oscuro esté el camino." },
+        { titulo: "La fuerza en la debilidad", texto: "A veces Dios permite que toquemos fondo para que aprendamos que Él es el único fundamento firme." },
+        { titulo: "Perseverancia diaria", texto: "No te canses de hacer el bien. Cada paso pequeño, incluso el más difícil, te acerca a la meta." },
+        { titulo: "El poder de la fe", texto: "La fe no quita las tormentas, pero te da un ancla para no hundirte en medio de ellas." },
+        { titulo: "Paz en medio del caos", texto: "La paz no es la ausencia de problemas, es la presencia de Dios en medio de ellos." },
+        { titulo: "Gratitud ante todo", texto: "Incluso en los días difíciles, siempre hay un motivo para agradecer. Busca la bendición escondida." }
+      ];
+
+      // Lógica para elegir el desafío según el día (0 es domingo, 1 es lunes...)
+      const hoy = new Date().getDay();
+      document.getElementById('titulo-desafio').innerText = desafios[hoy].titulo;
+      document.getElementById('texto-desafio').innerText = desafios[hoy].texto;
+
     (function(){
       const track=document.getElementById('track'),slides=track.children,total=slides.length,
             dotsBox=document.getElementById('dots');
