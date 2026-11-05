@@ -256,29 +256,25 @@
       track.addEventListener('touchstart',()=>clearInterval(auto),{passive:true});
       
       // --- 3. BOTÓN VOLVER A WHATSAPP ---
-            document.getElementById('btnClose').addEventListener('click', function(e){
+                  document.getElementById('btnClose').addEventListener('click', function(e){
+        // 1. Evitamos que el navegador salte inmediatamente para intentar cerrar primero
         e.preventDefault();
         
-        // 1. Pedirle al navegador que cierre la pestaña (esto te devuelve a WhatsApp en el celular)
+        // 2. Intentamos cerrar la pestaña (esto es lo ideal en WhatsApp)
         window.close();
         
-        // 2. Si el navegador es celoso y no deja cerrar, que retroceda en la historia
+        // 3. Si no se cerró, intentamos volver atrás en el historial
         setTimeout(function() {
             if (window.history.length > 1) {
                 window.history.back();
             }
         }, 100);
 
-        // 3. Último recurso (por si no cerró): abrir la app (esto evita que salga "extraviado")
+        // 4. Si el navegador fue terco y no hizo ninguna de las dos, 
+        // obligamos al celular a abrir el enlace del grupo (lo que abre la app)
         setTimeout(function() {
-            // Si es un celular, usa el intento de app, si es PC, WhatsApp Web
-            const esCelular = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-            if (esCelular) {
-                window.location.href = "whatsapp://app";
-            } else {
-                window.location.href = "https://web.whatsapp.com/";
-            }
-        }, 500);
+            window.location.href = "https://chat.whatsapp.com/https://chat.whatsapp.com/Ko5CM5yUEhb7K5Dnu95Q60?s=cl&p=a&mlu=4&ilr=4&iam=2;
+        }, 300);
       });
     })();
   </script>
