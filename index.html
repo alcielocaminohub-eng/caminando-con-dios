@@ -145,7 +145,7 @@
       victoria que mañana contarás con lágrimas de gratitud.
       <strong>No sueltes la fe cuando más oscuro esté el camino.</strong>
     </p>
-    <div class="verse">
+        <div class="verse" id="versiculo-desafio">
       «Cuando pases por las aguas, yo estaré contigo.» — Isaías 43:2
     </div>
   </section>
@@ -201,14 +201,14 @@
   <script>
     (function(){
       // --- 1. LÓGICA DE LOS 7 DÍAS ---
-      const desafios = [
-        { titulo: "El descanso en Dios", texto: "Descansar no es rendirse, es confiar en que Dios tiene el control. Hoy es un buen día para soltar esa carga." },
-        { titulo: "¿Qué haces cuando la tormenta no se detiene?", texto: "La adversidad no llega para destruirte, llega para revelarte. No sueltes la fe cuando más oscuro esté el camino." },
-        { titulo: "La fuerza en la debilidad", texto: "A veces Dios permite que toquemos fondo para que aprendamos que Él es el único fundamento firme." },
-        { titulo: "Perseverancia diaria", texto: "No te canses de hacer el bien. Cada paso pequeño, incluso el más difícil, te acerca a la meta." },
-        { titulo: "El poder de la fe", texto: "La fe no quita las tormentas, pero te da un ancla para no hundirte en medio de ellas." },
-        { titulo: "Paz en medio del caos", texto: "La paz no es la ausencia de problemas, es la presencia de Dios en medio de ellos." },
-        { titulo: "Gratitud ante todo", texto: "Incluso en los días difíciles, siempre hay un motivo para agradecer. Busca la bendición escondida." }
+                  const desafios = [
+        { titulo: "El descanso en Dios", texto: "Descansar no es rendirse, es confiar en que Dios tiene el control. Hoy es un buen día para soltar esa carga.", versiculo: "«Vengan a mí todos ustedes que están cansados... y yo les daré descanso.» — Mateo 11:28" },
+        { titulo: "¿Qué haces cuando la tormenta no se detiene?", texto: "La adversidad no llega para destruirte, llega para revelarte. No sueltes la fe cuando más oscuro esté el camino.", versiculo: "«Cuando pases por las aguas, yo estaré contigo.» — Isaías 43:2" },
+        { titulo: "La fuerza en la debilidad", texto: "A veces Dios permite que toquemos fondo para que aprendamos que Él es el único fundamento firme.", versiculo: "«Mi poder se perfecciona en la debilidad.» — 2 Corintios 12:9" },
+        { titulo: "Perseverancia diaria", texto: "No te canses de hacer el bien. Cada paso pequeño, incluso el más difícil, te acerca a la meta.", versiculo: "«No nos cansemos de hacer el bien, pues a su tiempo cosecharemos.» — Gálatas 6:9" },
+        { titulo: "El poder de la fe", texto: "La fe no quita las tormentas, pero te da un ancla para no hundirte en medio de ellas.", versiculo: "«La fe es la certeza de lo que se espera, la convicción de lo que no se ve.» — Hebreos 11:1" },
+        { titulo: "Paz en medio del caos", texto: "La paz no es la ausencia de problemas, es la presencia de Dios en medio de ellos.", versiculo: "«La paz les dejo, mi paz les doy; no como el mundo la da.» — Juan 14:27" },
+        { titulo: "Gratitud ante todo", texto: "Incluso en los días difíciles, siempre hay un motivo para agradecer. Busca la bendición escondida.", versiculo: "«Den gracias a Dios en toda situación.» — 1 Tesalonicenses 5:18" }
       ];
       
       const hoy = new Date().getDay();
@@ -217,6 +217,10 @@
       if(tituloEl && textoEl) {
         tituloEl.innerText = desafios[hoy].titulo;
         textoEl.innerText = desafios[hoy].texto;
+       const versiculoEl = document.getElementById('versiculo-desafio');
+      if(versiculoEl) {
+        versiculoEl.innerText = desafios[hoy].versiculo;
+      }
       }
 
       // --- 2. LÓGICA DEL CARRUSEL ---
@@ -252,11 +256,20 @@
       let auto=setInterval(()=>goTo(current+1),5000);
       track.addEventListener('touchstart',()=>clearInterval(auto),{passive:true});
       
-      document.getElementById('btnClose').addEventListener('click',function(e){
-        e.preventDefault();window.close();
-        setTimeout(()=>{window.location.href='https://chat.whatsapp.com/'},300);
+            document.getElementById('btnClose').addEventListener('click', function(e){
+        e.preventDefault();
+        // 1. Intenta regresar a la pantalla anterior (el chat de WhatsApp)
+        if (window.history.length > 1) {
+          window.history.back();
+        } else {
+          // 2. Si no puede, intenta cerrar la ventana
+          window.close();
+          // 3. Como último recurso, abre la app de WhatsApp
+          setTimeout(function(){
+            window.location.href = 'whatsapp://';
+          }, 300);
+        }
       });
-    })();
   </script>
 </body>
 </html>
